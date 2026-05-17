@@ -62,13 +62,19 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { name: "author", content: "Vertext Digital" },
       { property: "og:site_name", content: "Vertext Digital" },
       { property: "og:type", content: "website" },
-      { property: "og:title", content: "Vertext Digital" },
+      { property: "og:title", content: "Vertext Digital — Software, Mobile Apps and WhatsApp Business Solutions" },
       {
         property: "og:description",
         content:
           "Software engineering, mobile apps and WhatsApp Business API integrations built for serious operators.",
       },
       { name: "twitter:card", content: "summary_large_image" },
+      { name: "twitter:title", content: "Vertext Digital — Software, Mobile Apps and WhatsApp Business Solutions" },
+      { name: "description", content: "At vertext digital, we build custom softwares,WhatsApp bots , mobile apps l. Websites and also integrate softwares to any systems" },
+      { property: "og:description", content: "At vertext digital, we build custom softwares,WhatsApp bots , mobile apps l. Websites and also integrate softwares to any systems" },
+      { name: "twitter:description", content: "At vertext digital, we build custom softwares,WhatsApp bots , mobile apps l. Websites and also integrate softwares to any systems" },
+      { property: "og:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/10290f81-af37-4c22-b2df-30c73ba78a48/id-preview-8e4c9e76--e1c1a1a1-0bb7-4294-8ad4-3028ff63afd1.lovable.app-1779040649015.png" },
+      { name: "twitter:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/10290f81-af37-4c22-b2df-30c73ba78a48/id-preview-8e4c9e76--e1c1a1a1-0bb7-4294-8ad4-3028ff63afd1.lovable.app-1779040649015.png" },
     ],
     links: [
       { rel: "stylesheet", href: appCss },
