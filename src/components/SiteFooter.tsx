@@ -32,9 +32,12 @@ export function SiteFooter() {
         </div>
       </div>
       <div className="border-t border-border">
-        <div className="container-prose py-6 flex flex-col sm:flex-row justify-between gap-2 text-xs text-muted-foreground">
+        <div className="container-prose py-6 flex flex-col sm:flex-row justify-between gap-3 text-xs text-muted-foreground">
           <p>&copy; {new Date().getFullYear()} Vertext Digital. All rights reserved.</p>
-          <p>Registered software solutions provider.</p>
+          <div className="flex gap-5">
+            <Link to="/terms" className="hover:text-foreground">Terms</Link>
+            <Link to="/privacy" className="hover:text-foreground">Privacy</Link>
+          </div>
         </div>
       </div>
     </footer>
