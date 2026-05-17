@@ -67,7 +67,7 @@ function HomePage() {
       <section className="border-y border-border bg-surface/40">
         <div className="container-prose py-8 grid grid-cols-2 md:grid-cols-4 gap-6 text-sm">
           {[
-            ["Founded", "2023"],
+            ["Founded", "2026"],
             ["Engagements", "B2B & SMB"],
             ["Delivery", "Studio-led"],
             ["Stack", "TypeScript · Node · React"],

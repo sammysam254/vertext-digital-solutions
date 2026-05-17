@@ -49,7 +49,14 @@ function ContactPage() {
             <MessageCircle size={18} className="text-brand mt-0.5" />
             <div>
               <div className="text-foreground font-medium">WhatsApp</div>
-              <span className="text-muted-foreground">Available on request after first contact</span>
+              <a
+                href="https://wa.me/254706499848"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-muted-foreground hover:text-foreground"
+              >
+                +254 706 499 848
+              </a>
             </div>
           </div>
           <div className="flex gap-3 items-start">
