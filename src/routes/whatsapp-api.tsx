@@ -107,13 +107,13 @@ function WhatsappPage() {
               "Dedicated engineering team experienced with the Cloud API",
               "End-to-end ownership from onboarding through to support",
               "Transparent architecture documentation for each deployment",
-              "Operating procedures aligned with Meta&apos;s platform policies",
+              "Operating procedures aligned with Meta's platform policies",
               "Clean separation between client data and shared infrastructure",
               "Ability to support multiple WhatsApp Business Account structures",
             ].map((x) => (
               <li key={x} className="flex gap-3">
                 <CheckCircle2 size={18} className="text-brand shrink-0 mt-0.5" />
-                <span className="text-muted-foreground" dangerouslySetInnerHTML={{ __html: x }} />
+                <span className="text-muted-foreground">{x}</span>
               </li>
             ))}
           </ul>
