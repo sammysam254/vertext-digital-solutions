@@ -111,9 +111,19 @@ function ServicesPage() {
 
       <section className="container-prose pb-20 grid gap-6 md:grid-cols-2">
         {groups.map((g) => (
-          <article key={g.title} className="card-surface">
-            <h2 className="text-xl">{g.title}</h2>
-            <ul className="mt-4 space-y-2 text-sm text-muted-foreground">
+          <article key={g.title} className="card-surface flex flex-col">
+            <div className="flex items-start justify-between gap-4">
+              <h2 className="text-xl">{g.title}</h2>
+              {g.price && (
+                <div className="text-right shrink-0">
+                  <div className="text-base font-semibold text-foreground">{g.price}</div>
+                  {g.priceNote && (
+                    <div className="text-xs text-muted-foreground">{g.priceNote}</div>
+                  )}
+                </div>
+              )}
+            </div>
+            <ul className="mt-4 space-y-2 text-sm text-muted-foreground flex-1">
               {g.items.map((it) => (
                 <li key={it} className="flex gap-3">
                   <span className="mt-2 w-1 h-1 rounded-full bg-brand shrink-0" />
@@ -121,6 +131,18 @@ function ServicesPage() {
                 </li>
               ))}
             </ul>
+            {g.price && (
+              <div className="mt-6">
+                <a
+                  href={bookingUrl(g.title)}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="btn-brand w-full justify-center"
+                >
+                  Book now
+                </a>
+              </div>
+            )}
           </article>
         ))}
       </section>
