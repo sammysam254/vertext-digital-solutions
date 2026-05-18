@@ -18,7 +18,14 @@ export const Route = createFileRoute("/services")({
   component: ServicesPage,
 });
 
-const groups = [
+const WHATSAPP_NUMBER = "254706499848";
+
+const groups: {
+  title: string;
+  price?: string;
+  priceNote?: string;
+  items: string[];
+}[] = [
   {
     title: "Custom software",
     items: [
@@ -30,6 +37,8 @@ const groups = [
   },
   {
     title: "Mobile applications",
+    price: "From USD 1,000",
+    priceNote: "per project",
     items: [
       "Native iOS and Android applications",
       "Cross-platform apps using React Native",
@@ -39,6 +48,8 @@ const groups = [
   },
   {
     title: "Websites and digital presence",
+    price: "From USD 200",
+    priceNote: "per project",
     items: [
       "Marketing websites and product pages",
       "Performance and SEO engineering",
@@ -48,6 +59,8 @@ const groups = [
   },
   {
     title: "WhatsApp and Meta integrations",
+    price: "From USD 2",
+    priceNote: "per month",
     items: [
       "WhatsApp Business API onboarding through Meta",
       "Conversational bots and ticket routing",
@@ -57,6 +70,8 @@ const groups = [
   },
   {
     title: "AI tools and assistants",
+    price: "From USD 100",
+    priceNote: "per project",
     items: [
       "Domain-specific assistants grounded in your data",
       "Document processing and extraction pipelines",
@@ -75,6 +90,11 @@ const groups = [
   },
 ];
 
+function bookingUrl(title: string) {
+  const message = `Hello Vertext Digital, I would like to book the "${title}" service. Please share the next steps.`;
+  return `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
+}
+
 function ServicesPage() {
   return (
     <>
@@ -91,9 +111,19 @@ function ServicesPage() {
 
       <section className="container-prose pb-20 grid gap-6 md:grid-cols-2">
         {groups.map((g) => (
-          <article key={g.title} className="card-surface">
-            <h2 className="text-xl">{g.title}</h2>
-            <ul className="mt-4 space-y-2 text-sm text-muted-foreground">
+          <article key={g.title} className="card-surface flex flex-col">
+            <div className="flex items-start justify-between gap-4">
+              <h2 className="text-xl">{g.title}</h2>
+              {g.price && (
+                <div className="text-right shrink-0">
+                  <div className="text-base font-semibold text-foreground">{g.price}</div>
+                  {g.priceNote && (
+                    <div className="text-xs text-muted-foreground">{g.priceNote}</div>
+                  )}
+                </div>
+              )}
+            </div>
+            <ul className="mt-4 space-y-2 text-sm text-muted-foreground flex-1">
               {g.items.map((it) => (
                 <li key={it} className="flex gap-3">
                   <span className="mt-2 w-1 h-1 rounded-full bg-brand shrink-0" />
@@ -101,6 +131,18 @@ function ServicesPage() {
                 </li>
               ))}
             </ul>
+            {g.price && (
+              <div className="mt-6">
+                <a
+                  href={bookingUrl(g.title)}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="btn-brand w-full justify-center"
+                >
+                  Book now
+                </a>
+              </div>
+            )}
           </article>
         ))}
       </section>
