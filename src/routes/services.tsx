@@ -18,7 +18,14 @@ export const Route = createFileRoute("/services")({
   component: ServicesPage,
 });
 
-const groups = [
+const WHATSAPP_NUMBER = "254706499848";
+
+const groups: {
+  title: string;
+  price?: string;
+  priceNote?: string;
+  items: string[];
+}[] = [
   {
     title: "Custom software",
     items: [
@@ -30,6 +37,8 @@ const groups = [
   },
   {
     title: "Mobile applications",
+    price: "From USD 1,000",
+    priceNote: "per project",
     items: [
       "Native iOS and Android applications",
       "Cross-platform apps using React Native",
@@ -39,6 +48,8 @@ const groups = [
   },
   {
     title: "Websites and digital presence",
+    price: "From USD 200",
+    priceNote: "per project",
     items: [
       "Marketing websites and product pages",
       "Performance and SEO engineering",
@@ -48,6 +59,8 @@ const groups = [
   },
   {
     title: "WhatsApp and Meta integrations",
+    price: "From USD 2",
+    priceNote: "per month",
     items: [
       "WhatsApp Business API onboarding through Meta",
       "Conversational bots and ticket routing",
@@ -57,6 +70,8 @@ const groups = [
   },
   {
     title: "AI tools and assistants",
+    price: "From USD 100",
+    priceNote: "per project",
     items: [
       "Domain-specific assistants grounded in your data",
       "Document processing and extraction pipelines",
@@ -74,6 +89,11 @@ const groups = [
     ],
   },
 ];
+
+function bookingUrl(title: string) {
+  const message = `Hello Vertext Digital, I would like to book the "${title}" service. Please share the next steps.`;
+  return `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
+}
 
 function ServicesPage() {
   return (
