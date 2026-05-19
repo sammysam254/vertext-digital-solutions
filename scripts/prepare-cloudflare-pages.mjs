@@ -42,7 +42,9 @@ if (!assetsDir || !existsSync(assetsDir)) {
 rmSync(pagesOutputDir, { recursive: true, force: true });
 mkdirSync(pagesOutputDir, { recursive: true });
 cpSync(assetsDir, pagesOutputDir, { recursive: true });
+cpSync(workerBuildDir, pagesOutputDir, { recursive: true });
 cpSync(workerEntry, join(pagesOutputDir, "_worker.js"));
+rmSync(join(pagesOutputDir, "wrangler.json"), { force: true });
 
 writeFileSync(
   join(pagesOutputDir, "_routes.json"),
