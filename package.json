@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "vite dev",
     "build": "vite build",
+    "build:netlify": "vite build && node scripts/prepare-netlify.mjs",
     "build:cloudflare-pages": "vite build && node scripts/prepare-cloudflare-pages.mjs",
     "deploy:cloudflare-worker": "vite build && wrangler deploy",
     "build:dev": "vite build --mode development",
