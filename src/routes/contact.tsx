@@ -66,8 +66,8 @@ function ContactPage() {
             <Mail size={18} className="text-brand mt-0.5" />
             <div>
               <div className="text-foreground font-medium">Email</div>
-              <a href="mailto:hello@vertextdigital.com" className="text-muted-foreground hover:text-foreground">
-                hello@vertextdigital.com
+              <a href="mailto:vertextdigital@gmail.com" className="text-muted-foreground hover:text-foreground">
+                vertextdigital@gmail.com
               </a>
             </div>
           </div>
