@@ -131,9 +131,12 @@ function ContactPage() {
                 className="mt-2 w-full bg-background border border-input rounded-md px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-ring resize-none"
               />
             </div>
-            <button type="submit" className="btn-brand w-full">Send message</button>
+            {error && <p className="text-sm text-destructive">{error}</p>}
+            <button type="submit" disabled={submitting} className="btn-brand w-full">
+              {submitting ? "Sending…" : "Send message"}
+            </button>
             <p className="text-xs text-muted-foreground">
-              By submitting this form you consent to being contacted about your enquiry.
+              You&apos;ll receive a confirmation email right after submitting.
             </p>
           </>
         )}
