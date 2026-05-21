@@ -107,7 +107,7 @@ function ContactPage() {
           <>
             <Field label="Full name" name="name" required />
             <Field label="Work email" name="email" type="email" required />
-            <Field label="Company" name="company" />
+            <Field label="Phone number" name="phone" type="tel" placeholder="+254 700 000 000" />
             <div>
               <label className="text-sm font-medium text-foreground">Project type</label>
               <select
