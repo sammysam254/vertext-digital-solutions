@@ -18,6 +18,7 @@ import { Route as ContactRouteImport } from './routes/contact'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ApiPublicContactRouteImport } from './routes/api/public/contact'
+import { Route as ApiPublicAdminReplyRouteImport } from './routes/api/public/admin/reply'
 import { Route as ApiPublicAdminMessagesRouteImport } from './routes/api/public/admin/messages'
 import { Route as ApiPublicAdminLoginRouteImport } from './routes/api/public/admin/login'
 
@@ -66,6 +67,11 @@ const ApiPublicContactRoute = ApiPublicContactRouteImport.update({
   path: '/api/public/contact',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiPublicAdminReplyRoute = ApiPublicAdminReplyRouteImport.update({
+  id: '/api/public/admin/reply',
+  path: '/api/public/admin/reply',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ApiPublicAdminMessagesRoute = ApiPublicAdminMessagesRouteImport.update({
   id: '/api/public/admin/messages',
   path: '/api/public/admin/messages',
@@ -89,6 +95,7 @@ export interface FileRoutesByFullPath {
   '/api/public/contact': typeof ApiPublicContactRoute
   '/api/public/admin/login': typeof ApiPublicAdminLoginRoute
   '/api/public/admin/messages': typeof ApiPublicAdminMessagesRoute
+  '/api/public/admin/reply': typeof ApiPublicAdminReplyRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -102,6 +109,7 @@ export interface FileRoutesByTo {
   '/api/public/contact': typeof ApiPublicContactRoute
   '/api/public/admin/login': typeof ApiPublicAdminLoginRoute
   '/api/public/admin/messages': typeof ApiPublicAdminMessagesRoute
+  '/api/public/admin/reply': typeof ApiPublicAdminReplyRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -116,6 +124,7 @@ export interface FileRoutesById {
   '/api/public/contact': typeof ApiPublicContactRoute
   '/api/public/admin/login': typeof ApiPublicAdminLoginRoute
   '/api/public/admin/messages': typeof ApiPublicAdminMessagesRoute
+  '/api/public/admin/reply': typeof ApiPublicAdminReplyRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -131,6 +140,7 @@ export interface FileRouteTypes {
     | '/api/public/contact'
     | '/api/public/admin/login'
     | '/api/public/admin/messages'
+    | '/api/public/admin/reply'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -144,6 +154,7 @@ export interface FileRouteTypes {
     | '/api/public/contact'
     | '/api/public/admin/login'
     | '/api/public/admin/messages'
+    | '/api/public/admin/reply'
   id:
     | '__root__'
     | '/'
@@ -157,6 +168,7 @@ export interface FileRouteTypes {
     | '/api/public/contact'
     | '/api/public/admin/login'
     | '/api/public/admin/messages'
+    | '/api/public/admin/reply'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -171,6 +183,7 @@ export interface RootRouteChildren {
   ApiPublicContactRoute: typeof ApiPublicContactRoute
   ApiPublicAdminLoginRoute: typeof ApiPublicAdminLoginRoute
   ApiPublicAdminMessagesRoute: typeof ApiPublicAdminMessagesRoute
+  ApiPublicAdminReplyRoute: typeof ApiPublicAdminReplyRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -238,6 +251,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiPublicContactRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/public/admin/reply': {
+      id: '/api/public/admin/reply'
+      path: '/api/public/admin/reply'
+      fullPath: '/api/public/admin/reply'
+      preLoaderRoute: typeof ApiPublicAdminReplyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/api/public/admin/messages': {
       id: '/api/public/admin/messages'
       path: '/api/public/admin/messages'
@@ -267,6 +287,7 @@ const rootRouteChildren: RootRouteChildren = {
   ApiPublicContactRoute: ApiPublicContactRoute,
   ApiPublicAdminLoginRoute: ApiPublicAdminLoginRoute,
   ApiPublicAdminMessagesRoute: ApiPublicAdminMessagesRoute,
+  ApiPublicAdminReplyRoute: ApiPublicAdminReplyRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
