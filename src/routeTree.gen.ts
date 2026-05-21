@@ -18,6 +18,7 @@ import { Route as ContactRouteImport } from './routes/contact'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ApiPublicContactRouteImport } from './routes/api/public/contact'
+import { Route as ApiPublicAdminLoginRouteImport } from './routes/api/public/admin/login'
 
 const WhatsappApiRoute = WhatsappApiRouteImport.update({
   id: '/whatsapp-api',
@@ -64,6 +65,11 @@ const ApiPublicContactRoute = ApiPublicContactRouteImport.update({
   path: '/api/public/contact',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiPublicAdminLoginRoute = ApiPublicAdminLoginRouteImport.update({
+  id: '/api/public/admin/login',
+  path: '/api/public/admin/login',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -75,6 +81,7 @@ export interface FileRoutesByFullPath {
   '/terms': typeof TermsRoute
   '/whatsapp-api': typeof WhatsappApiRoute
   '/api/public/contact': typeof ApiPublicContactRoute
+  '/api/public/admin/login': typeof ApiPublicAdminLoginRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -86,6 +93,7 @@ export interface FileRoutesByTo {
   '/terms': typeof TermsRoute
   '/whatsapp-api': typeof WhatsappApiRoute
   '/api/public/contact': typeof ApiPublicContactRoute
+  '/api/public/admin/login': typeof ApiPublicAdminLoginRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -98,6 +106,7 @@ export interface FileRoutesById {
   '/terms': typeof TermsRoute
   '/whatsapp-api': typeof WhatsappApiRoute
   '/api/public/contact': typeof ApiPublicContactRoute
+  '/api/public/admin/login': typeof ApiPublicAdminLoginRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -111,6 +120,7 @@ export interface FileRouteTypes {
     | '/terms'
     | '/whatsapp-api'
     | '/api/public/contact'
+    | '/api/public/admin/login'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -122,6 +132,7 @@ export interface FileRouteTypes {
     | '/terms'
     | '/whatsapp-api'
     | '/api/public/contact'
+    | '/api/public/admin/login'
   id:
     | '__root__'
     | '/'
@@ -133,6 +144,7 @@ export interface FileRouteTypes {
     | '/terms'
     | '/whatsapp-api'
     | '/api/public/contact'
+    | '/api/public/admin/login'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -145,6 +157,7 @@ export interface RootRouteChildren {
   TermsRoute: typeof TermsRoute
   WhatsappApiRoute: typeof WhatsappApiRoute
   ApiPublicContactRoute: typeof ApiPublicContactRoute
+  ApiPublicAdminLoginRoute: typeof ApiPublicAdminLoginRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -212,6 +225,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiPublicContactRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/public/admin/login': {
+      id: '/api/public/admin/login'
+      path: '/api/public/admin/login'
+      fullPath: '/api/public/admin/login'
+      preLoaderRoute: typeof ApiPublicAdminLoginRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -225,6 +245,7 @@ const rootRouteChildren: RootRouteChildren = {
   TermsRoute: TermsRoute,
   WhatsappApiRoute: WhatsappApiRoute,
   ApiPublicContactRoute: ApiPublicContactRoute,
+  ApiPublicAdminLoginRoute: ApiPublicAdminLoginRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
