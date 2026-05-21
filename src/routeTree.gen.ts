@@ -15,8 +15,13 @@ import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as ServicesRouteImport } from './routes/services'
 import { Route as PrivacyRouteImport } from './routes/privacy'
 import { Route as ContactRouteImport } from './routes/contact'
+import { Route as AdminRouteImport } from './routes/admin'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as ApiPublicContactRouteImport } from './routes/api/public/contact'
+import { Route as ApiPublicAdminReplyRouteImport } from './routes/api/public/admin/reply'
+import { Route as ApiPublicAdminMessagesRouteImport } from './routes/api/public/admin/messages'
+import { Route as ApiPublicAdminLoginRouteImport } from './routes/api/public/admin/login'
 
 const WhatsappApiRoute = WhatsappApiRouteImport.update({
   id: '/whatsapp-api',
@@ -48,6 +53,11 @@ const ContactRoute = ContactRouteImport.update({
   path: '/contact',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AdminRoute = AdminRouteImport.update({
+  id: '/admin',
+  path: '/admin',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AboutRoute = AboutRouteImport.update({
   id: '/about',
   path: '/about',
@@ -58,80 +68,135 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiPublicContactRoute = ApiPublicContactRouteImport.update({
+  id: '/api/public/contact',
+  path: '/api/public/contact',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiPublicAdminReplyRoute = ApiPublicAdminReplyRouteImport.update({
+  id: '/api/public/admin/reply',
+  path: '/api/public/admin/reply',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiPublicAdminMessagesRoute = ApiPublicAdminMessagesRouteImport.update({
+  id: '/api/public/admin/messages',
+  path: '/api/public/admin/messages',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiPublicAdminLoginRoute = ApiPublicAdminLoginRouteImport.update({
+  id: '/api/public/admin/login',
+  path: '/api/public/admin/login',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
+  '/admin': typeof AdminRoute
   '/contact': typeof ContactRoute
   '/privacy': typeof PrivacyRoute
   '/services': typeof ServicesRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/terms': typeof TermsRoute
   '/whatsapp-api': typeof WhatsappApiRoute
+  '/api/public/contact': typeof ApiPublicContactRoute
+  '/api/public/admin/login': typeof ApiPublicAdminLoginRoute
+  '/api/public/admin/messages': typeof ApiPublicAdminMessagesRoute
+  '/api/public/admin/reply': typeof ApiPublicAdminReplyRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
+  '/admin': typeof AdminRoute
   '/contact': typeof ContactRoute
   '/privacy': typeof PrivacyRoute
   '/services': typeof ServicesRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/terms': typeof TermsRoute
   '/whatsapp-api': typeof WhatsappApiRoute
+  '/api/public/contact': typeof ApiPublicContactRoute
+  '/api/public/admin/login': typeof ApiPublicAdminLoginRoute
+  '/api/public/admin/messages': typeof ApiPublicAdminMessagesRoute
+  '/api/public/admin/reply': typeof ApiPublicAdminReplyRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
+  '/admin': typeof AdminRoute
   '/contact': typeof ContactRoute
   '/privacy': typeof PrivacyRoute
   '/services': typeof ServicesRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/terms': typeof TermsRoute
   '/whatsapp-api': typeof WhatsappApiRoute
+  '/api/public/contact': typeof ApiPublicContactRoute
+  '/api/public/admin/login': typeof ApiPublicAdminLoginRoute
+  '/api/public/admin/messages': typeof ApiPublicAdminMessagesRoute
+  '/api/public/admin/reply': typeof ApiPublicAdminReplyRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
     | '/about'
+    | '/admin'
     | '/contact'
     | '/privacy'
     | '/services'
     | '/sitemap.xml'
     | '/terms'
     | '/whatsapp-api'
+    | '/api/public/contact'
+    | '/api/public/admin/login'
+    | '/api/public/admin/messages'
+    | '/api/public/admin/reply'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/about'
+    | '/admin'
     | '/contact'
     | '/privacy'
     | '/services'
     | '/sitemap.xml'
     | '/terms'
     | '/whatsapp-api'
+    | '/api/public/contact'
+    | '/api/public/admin/login'
+    | '/api/public/admin/messages'
+    | '/api/public/admin/reply'
   id:
     | '__root__'
     | '/'
     | '/about'
+    | '/admin'
     | '/contact'
     | '/privacy'
     | '/services'
     | '/sitemap.xml'
     | '/terms'
     | '/whatsapp-api'
+    | '/api/public/contact'
+    | '/api/public/admin/login'
+    | '/api/public/admin/messages'
+    | '/api/public/admin/reply'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AboutRoute: typeof AboutRoute
+  AdminRoute: typeof AdminRoute
   ContactRoute: typeof ContactRoute
   PrivacyRoute: typeof PrivacyRoute
   ServicesRoute: typeof ServicesRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   TermsRoute: typeof TermsRoute
   WhatsappApiRoute: typeof WhatsappApiRoute
+  ApiPublicContactRoute: typeof ApiPublicContactRoute
+  ApiPublicAdminLoginRoute: typeof ApiPublicAdminLoginRoute
+  ApiPublicAdminMessagesRoute: typeof ApiPublicAdminMessagesRoute
+  ApiPublicAdminReplyRoute: typeof ApiPublicAdminReplyRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -178,6 +243,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ContactRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/admin': {
+      id: '/admin'
+      path: '/admin'
+      fullPath: '/admin'
+      preLoaderRoute: typeof AdminRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/about': {
       id: '/about'
       path: '/about'
@@ -192,18 +264,51 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/public/contact': {
+      id: '/api/public/contact'
+      path: '/api/public/contact'
+      fullPath: '/api/public/contact'
+      preLoaderRoute: typeof ApiPublicContactRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/public/admin/reply': {
+      id: '/api/public/admin/reply'
+      path: '/api/public/admin/reply'
+      fullPath: '/api/public/admin/reply'
+      preLoaderRoute: typeof ApiPublicAdminReplyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/public/admin/messages': {
+      id: '/api/public/admin/messages'
+      path: '/api/public/admin/messages'
+      fullPath: '/api/public/admin/messages'
+      preLoaderRoute: typeof ApiPublicAdminMessagesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/public/admin/login': {
+      id: '/api/public/admin/login'
+      path: '/api/public/admin/login'
+      fullPath: '/api/public/admin/login'
+      preLoaderRoute: typeof ApiPublicAdminLoginRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AboutRoute: AboutRoute,
+  AdminRoute: AdminRoute,
   ContactRoute: ContactRoute,
   PrivacyRoute: PrivacyRoute,
   ServicesRoute: ServicesRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
   TermsRoute: TermsRoute,
   WhatsappApiRoute: WhatsappApiRoute,
+  ApiPublicContactRoute: ApiPublicContactRoute,
+  ApiPublicAdminLoginRoute: ApiPublicAdminLoginRoute,
+  ApiPublicAdminMessagesRoute: ApiPublicAdminMessagesRoute,
+  ApiPublicAdminReplyRoute: ApiPublicAdminReplyRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

@@ -22,6 +22,32 @@ export const Route = createFileRoute("/contact")({
 
 function ContactPage() {
   const [submitted, setSubmitted] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
+  const [error, setError] = useState("");
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setSubmitting(true); setError("");
+    const fd = new FormData(e.currentTarget);
+    try {
+      const res = await fetch("/api/public/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: fd.get("name"),
+          email: fd.get("email"),
+          phone: fd.get("phone"),
+          projectType: fd.get("type"),
+          message: fd.get("message"),
+        }),
+      });
+      const j = await res.json().catch(() => ({}));
+      if (!res.ok) throw new Error(j.error || "Failed to send message");
+      setSubmitted(true);
+    } catch (err: any) {
+      setError(err.message);
+    } finally { setSubmitting(false); }
+  };
 
   return (
     <section className="container-prose pt-20 pb-24 grid md:grid-cols-[1.1fr_1fr] gap-14">
@@ -40,8 +66,8 @@ function ContactPage() {
             <Mail size={18} className="text-brand mt-0.5" />
             <div>
               <div className="text-foreground font-medium">Email</div>
-              <a href="mailto:hello@vertextdigital.com" className="text-muted-foreground hover:text-foreground">
-                hello@vertextdigital.com
+              <a href="mailto:vertextdigital@gmail.com" className="text-muted-foreground hover:text-foreground">
+                vertextdigital@gmail.com
               </a>
             </div>
           </div>
@@ -69,10 +95,7 @@ function ContactPage() {
         </div>
       </div>
 
-      <form
-        onSubmit={(e) => { e.preventDefault(); setSubmitted(true); }}
-        className="card-surface md:p-8 space-y-5"
-      >
+      <form onSubmit={handleSubmit} className="card-surface md:p-8 space-y-5">
         {submitted ? (
           <div className="py-10 text-center">
             <h2 className="text-xl">Thank you</h2>
@@ -84,7 +107,7 @@ function ContactPage() {
           <>
             <Field label="Full name" name="name" required />
             <Field label="Work email" name="email" type="email" required />
-            <Field label="Company" name="company" />
+            <Field label="Phone number" name="phone" type="tel" placeholder="+254 700 000 000" />
             <div>
               <label className="text-sm font-medium text-foreground">Project type</label>
               <select
@@ -108,9 +131,12 @@ function ContactPage() {
                 className="mt-2 w-full bg-background border border-input rounded-md px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-ring resize-none"
               />
             </div>
-            <button type="submit" className="btn-brand w-full">Send message</button>
+            {error && <p className="text-sm text-destructive">{error}</p>}
+            <button type="submit" disabled={submitting} className="btn-brand w-full">
+              {submitting ? "Sending…" : "Send message"}
+            </button>
             <p className="text-xs text-muted-foreground">
-              By submitting this form you consent to being contacted about your enquiry.
+              You&apos;ll receive a confirmation email right after submitting.
             </p>
           </>
         )}
@@ -119,7 +145,7 @@ function ContactPage() {
   );
 }
 
-function Field({ label, name, type = "text", required = false }: { label: string; name: string; type?: string; required?: boolean }) {
+function Field({ label, name, type = "text", required = false, placeholder }: { label: string; name: string; type?: string; required?: boolean; placeholder?: string }) {
   return (
     <div>
       <label className="text-sm font-medium text-foreground">
@@ -129,6 +155,7 @@ function Field({ label, name, type = "text", required = false }: { label: string
         type={type}
         name={name}
         required={required}
+        placeholder={placeholder}
         className="mt-2 w-full bg-background border border-input rounded-md px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-ring"
       />
     </div>
