@@ -145,7 +145,7 @@ function ContactPage() {
   );
 }
 
-function Field({ label, name, type = "text", required = false }: { label: string; name: string; type?: string; required?: boolean }) {
+function Field({ label, name, type = "text", required = false, placeholder }: { label: string; name: string; type?: string; required?: boolean; placeholder?: string }) {
   return (
     <div>
       <label className="text-sm font-medium text-foreground">
@@ -155,6 +155,7 @@ function Field({ label, name, type = "text", required = false }: { label: string
         type={type}
         name={name}
         required={required}
+        placeholder={placeholder}
         className="mt-2 w-full bg-background border border-input rounded-md px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-ring"
       />
     </div>
