@@ -18,6 +18,7 @@ import { Route as ContactRouteImport } from './routes/contact'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ApiPublicContactRouteImport } from './routes/api/public/contact'
+import { Route as ApiPublicAdminMessagesRouteImport } from './routes/api/public/admin/messages'
 import { Route as ApiPublicAdminLoginRouteImport } from './routes/api/public/admin/login'
 
 const WhatsappApiRoute = WhatsappApiRouteImport.update({
@@ -65,6 +66,11 @@ const ApiPublicContactRoute = ApiPublicContactRouteImport.update({
   path: '/api/public/contact',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiPublicAdminMessagesRoute = ApiPublicAdminMessagesRouteImport.update({
+  id: '/api/public/admin/messages',
+  path: '/api/public/admin/messages',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ApiPublicAdminLoginRoute = ApiPublicAdminLoginRouteImport.update({
   id: '/api/public/admin/login',
   path: '/api/public/admin/login',
@@ -82,6 +88,7 @@ export interface FileRoutesByFullPath {
   '/whatsapp-api': typeof WhatsappApiRoute
   '/api/public/contact': typeof ApiPublicContactRoute
   '/api/public/admin/login': typeof ApiPublicAdminLoginRoute
+  '/api/public/admin/messages': typeof ApiPublicAdminMessagesRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -94,6 +101,7 @@ export interface FileRoutesByTo {
   '/whatsapp-api': typeof WhatsappApiRoute
   '/api/public/contact': typeof ApiPublicContactRoute
   '/api/public/admin/login': typeof ApiPublicAdminLoginRoute
+  '/api/public/admin/messages': typeof ApiPublicAdminMessagesRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -107,6 +115,7 @@ export interface FileRoutesById {
   '/whatsapp-api': typeof WhatsappApiRoute
   '/api/public/contact': typeof ApiPublicContactRoute
   '/api/public/admin/login': typeof ApiPublicAdminLoginRoute
+  '/api/public/admin/messages': typeof ApiPublicAdminMessagesRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -121,6 +130,7 @@ export interface FileRouteTypes {
     | '/whatsapp-api'
     | '/api/public/contact'
     | '/api/public/admin/login'
+    | '/api/public/admin/messages'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -133,6 +143,7 @@ export interface FileRouteTypes {
     | '/whatsapp-api'
     | '/api/public/contact'
     | '/api/public/admin/login'
+    | '/api/public/admin/messages'
   id:
     | '__root__'
     | '/'
@@ -145,6 +156,7 @@ export interface FileRouteTypes {
     | '/whatsapp-api'
     | '/api/public/contact'
     | '/api/public/admin/login'
+    | '/api/public/admin/messages'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -158,6 +170,7 @@ export interface RootRouteChildren {
   WhatsappApiRoute: typeof WhatsappApiRoute
   ApiPublicContactRoute: typeof ApiPublicContactRoute
   ApiPublicAdminLoginRoute: typeof ApiPublicAdminLoginRoute
+  ApiPublicAdminMessagesRoute: typeof ApiPublicAdminMessagesRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -225,6 +238,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiPublicContactRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/public/admin/messages': {
+      id: '/api/public/admin/messages'
+      path: '/api/public/admin/messages'
+      fullPath: '/api/public/admin/messages'
+      preLoaderRoute: typeof ApiPublicAdminMessagesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/api/public/admin/login': {
       id: '/api/public/admin/login'
       path: '/api/public/admin/login'
@@ -246,7 +266,18 @@ const rootRouteChildren: RootRouteChildren = {
   WhatsappApiRoute: WhatsappApiRoute,
   ApiPublicContactRoute: ApiPublicContactRoute,
   ApiPublicAdminLoginRoute: ApiPublicAdminLoginRoute,
+  ApiPublicAdminMessagesRoute: ApiPublicAdminMessagesRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { startInstance } from './start.ts'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+    config: Awaited<ReturnType<typeof startInstance.getOptions>>
+  }
+}
