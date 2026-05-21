@@ -22,6 +22,32 @@ export const Route = createFileRoute("/contact")({
 
 function ContactPage() {
   const [submitted, setSubmitted] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
+  const [error, setError] = useState("");
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setSubmitting(true); setError("");
+    const fd = new FormData(e.currentTarget);
+    try {
+      const res = await fetch("/api/public/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: fd.get("name"),
+          email: fd.get("email"),
+          phone: fd.get("phone"),
+          projectType: fd.get("type"),
+          message: fd.get("message"),
+        }),
+      });
+      const j = await res.json().catch(() => ({}));
+      if (!res.ok) throw new Error(j.error || "Failed to send message");
+      setSubmitted(true);
+    } catch (err: any) {
+      setError(err.message);
+    } finally { setSubmitting(false); }
+  };
 
   return (
     <section className="container-prose pt-20 pb-24 grid md:grid-cols-[1.1fr_1fr] gap-14">
