@@ -95,10 +95,7 @@ function ContactPage() {
         </div>
       </div>
 
-      <form
-        onSubmit={(e) => { e.preventDefault(); setSubmitted(true); }}
-        className="card-surface md:p-8 space-y-5"
-      >
+      <form onSubmit={handleSubmit} className="card-surface md:p-8 space-y-5">
         {submitted ? (
           <div className="py-10 text-center">
             <h2 className="text-xl">Thank you</h2>
