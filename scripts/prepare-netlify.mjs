@@ -13,6 +13,7 @@ const pages = [
   { path: "contact/index.html", title: "Contact — Vertext Digital", description: "Get in touch with Vertext Digital to discuss a custom software, mobile app or WhatsApp Business API project.", body: contactPage() },
   { path: "terms/index.html", title: "Terms of Service — Vertext Digital", description: "Terms of Service governing the use of Vertext Digital's website and engineering services.", body: termsPage() },
   { path: "privacy/index.html", title: "Privacy Policy — Vertext Digital", description: "How Vertext Digital collects, uses and protects personal information across its website and services.", body: privacyPage() },
+  { path: "admin/index.html", title: "Admin — Vertext Digital", description: "Vertext Digital admin panel.", body: adminPage() },
 ];
 
 rmSync(outputDir, { recursive: true, force: true });
