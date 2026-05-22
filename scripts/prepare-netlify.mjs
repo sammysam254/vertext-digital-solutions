@@ -108,7 +108,100 @@ function aboutPage() {
 }
 
 function contactPage() {
-  return `<section class="container page-hero split"><div><p class="eyebrow">Contact</p><h1>Tell us about the project.</h1><p>Share a short description of what you're trying to build or solve. We respond within two business days with an honest assessment and recommended next steps.</p><div class="contact-list"><p><strong>Email</strong><br><a href="mailto:hello@vertextdigital.com">hello@vertextdigital.com</a></p><p><strong>WhatsApp</strong><br><a target="_blank" rel="noopener noreferrer" href="https://wa.me/254706499848">+254 706 499 848</a></p><p><strong>Operating remotely</strong><br><span>Working with clients globally</span></p></div></div><form class="card" name="contact" method="POST" data-netlify="true"><input type="hidden" name="form-name" value="contact"><label>Full name<input name="name" required></label><label>Work email<input name="email" type="email" required></label><label>Company<input name="company"></label><label>Project type<select name="type"><option>Custom software</option><option>Mobile application</option><option>Website</option><option>WhatsApp Business API</option><option>AI tooling</option><option>Other</option></select></label><label>Brief description<textarea name="message" rows="5" required></textarea></label><button class="btn full" type="submit">Send message</button><p class="fine">By submitting this form you consent to being contacted about your enquiry.</p></form></section>`;
+  return `<section class="container page-hero split"><div><p class="eyebrow">Contact</p><h1>Tell us about the project.</h1><p>Share a short description of what you're trying to build or solve. We respond within two business days with an honest assessment and recommended next steps.</p><div class="contact-list"><p><strong>Email</strong><br><a href="mailto:vertextdigital@gmail.com">vertextdigital@gmail.com</a></p><p><strong>WhatsApp</strong><br><a target="_blank" rel="noopener noreferrer" href="https://wa.me/254706499848">+254 706 499 848</a></p><p><strong>Operating remotely</strong><br><span>Working with clients globally</span></p></div></div><form class="card" id="contactForm"><label>Full name<input name="name" required></label><label>Work email<input name="email" type="email" required></label><label>Phone number<input name="phone" type="tel"></label><label>Project type<select name="projectType"><option>Custom software</option><option>Mobile application</option><option>Website</option><option>WhatsApp Business API</option><option>AI tooling</option><option>Other</option></select></label><label>Brief description<textarea name="message" rows="5" required></textarea></label><button class="btn full" type="submit" id="contactSubmit">Send message</button><p class="fine" id="contactStatus">By submitting this form you consent to being contacted about your enquiry.</p></form></section>
+<script>
+(function(){
+  var form=document.getElementById('contactForm');
+  var status=document.getElementById('contactStatus');
+  var btn=document.getElementById('contactSubmit');
+  if(!form)return;
+  form.addEventListener('submit',async function(e){
+    e.preventDefault();
+    btn.disabled=true;btn.textContent='Sending…';
+    var fd=new FormData(form);
+    var payload=Object.fromEntries(fd.entries());
+    try{
+      var res=await fetch('/api/public/contact',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)});
+      var j=await res.json().catch(function(){return{};});
+      if(!res.ok)throw new Error(j.error||'Failed');
+      form.reset();
+      status.textContent='Thanks! We received your message and will reply shortly.';
+      status.style.color='#10b981';
+    }catch(err){
+      status.textContent='Sorry — '+err.message+'. Please email vertextdigital@gmail.com directly.';
+      status.style.color='#ef4444';
+    }finally{btn.disabled=false;btn.textContent='Send message';}
+  });
+})();
+</script>`;
+}
+
+function adminPage() {
+  return `<section class="container page-hero"><p class="eyebrow">Admin</p><h1>Admin panel</h1><p>Sign in to view and reply to customer messages.</p></section>
+<section class="container section"><div id="adminRoot" class="card" style="max-width:980px;margin:0 auto;"></div></section>
+<script>
+(function(){
+  var root=document.getElementById('adminRoot');
+  var TOKEN_KEY='vd_admin_token';
+  var token=sessionStorage.getItem(TOKEN_KEY);
+  function esc(s){return String(s==null?'':s).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];});}
+  function renderLogin(err){
+    root.innerHTML='<h2>Sign in</h2><form id="loginForm"><label>Email<input name="email" type="email" required></label><label>Password<input name="password" type="password" required></label>'+(err?'<p class="fine" style="color:#ef4444">'+esc(err)+'</p>':'')+'<button class="btn" type="submit">Sign in</button></form>';
+    document.getElementById('loginForm').addEventListener('submit',async function(e){
+      e.preventDefault();
+      var fd=new FormData(e.target);
+      var res=await fetch('/api/public/admin/login',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email:fd.get('email'),password:fd.get('password')})});
+      var j=await res.json().catch(function(){return{};});
+      if(!res.ok){renderLogin(j.error||'Login failed');return;}
+      sessionStorage.setItem(TOKEN_KEY,j.token);token=j.token;loadDashboard();
+    });
+  }
+  async function loadDashboard(){
+    root.innerHTML='<p>Loading…</p>';
+    var res=await fetch('/api/public/admin/messages',{headers:{Authorization:'Bearer '+token}});
+    if(res.status===401){sessionStorage.removeItem(TOKEN_KEY);token=null;renderLogin('Session expired');return;}
+    var data=await res.json();
+    renderDashboard(data.messages||[],data.replies||[]);
+  }
+  function renderDashboard(messages,replies){
+    var html='<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;"><h2 style="margin:0">Messages ('+messages.length+')</h2><button class="btn" id="signOutBtn">Sign out</button></div>';
+    if(messages.length===0)html+='<p>No messages yet.</p>';
+    messages.forEach(function(m){
+      var msgReplies=replies.filter(function(r){return r.message_id===m.id;});
+      html+='<div class="card" style="margin-bottom:14px;padding:18px;"><div style="display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;"><div><strong>'+esc(m.name)+'</strong> '+(m.replied?'<span style="color:#10b981;font-size:12px;">✓ replied</span>':'<span style="color:#f59e0b;font-size:12px;">NEW</span>')+'</div><div style="font-size:12px;color:#64748b;">'+new Date(m.created_at).toLocaleString()+'</div></div><div style="font-size:13px;margin-top:6px;"><a href="mailto:'+esc(m.email)+'">'+esc(m.email)+'</a>'+(m.phone?' · <a href="tel:'+esc(m.phone)+'">'+esc(m.phone)+'</a>':'')+(m.project_type?' · '+esc(m.project_type):'')+'</div><div style="margin-top:10px;padding:12px;background:#f1f5f9;border-radius:6px;white-space:pre-wrap;font-size:14px;">'+esc(m.message)+'</div>';
+      msgReplies.forEach(function(r){html+='<div style="margin-top:8px;padding:10px;border-left:3px solid #10b981;background:#ecfdf5;white-space:pre-wrap;font-size:13px;">'+esc(r.body)+'<div style="font-size:11px;color:#64748b;margin-top:4px;">'+new Date(r.created_at).toLocaleString()+'</div></div>';});
+      html+='<form data-mid="'+esc(m.id)+'" class="replyForm" style="margin-top:12px;"><textarea name="body" rows="3" placeholder="Reply to '+esc(m.name)+'…" required style="width:100%;"></textarea><div style="display:flex;gap:8px;margin-top:8px;"><button class="btn" type="submit">Send reply</button><button type="button" class="btn deleteBtn" data-mid="'+esc(m.id)+'" style="background:#ef4444;">Delete</button></div><p class="replyStatus fine" style="margin-top:6px;"></p></form></div>';
+    });
+    root.innerHTML=html;
+    document.getElementById('signOutBtn').addEventListener('click',function(){sessionStorage.removeItem(TOKEN_KEY);token=null;renderLogin();});
+    Array.from(document.querySelectorAll('.replyForm')).forEach(function(f){
+      f.addEventListener('submit',async function(e){
+        e.preventDefault();
+        var mid=f.getAttribute('data-mid');
+        var fd=new FormData(f);
+        var status=f.querySelector('.replyStatus');
+        var btn=f.querySelector('button[type=submit]');
+        btn.disabled=true;btn.textContent='Sending…';
+        var res=await fetch('/api/public/admin/reply',{method:'POST',headers:{'Content-Type':'application/json',Authorization:'Bearer '+token},body:JSON.stringify({messageId:mid,body:fd.get('body')})});
+        var j=await res.json().catch(function(){return{};});
+        btn.disabled=false;btn.textContent='Send reply';
+        if(!res.ok){status.textContent='Error: '+(j.error||'failed');status.style.color='#ef4444';return;}
+        if(j.warning){status.textContent='Saved, but email failed: '+j.warning;status.style.color='#f59e0b';}
+        else{status.textContent='Reply sent.';status.style.color='#10b981';setTimeout(loadDashboard,800);}
+      });
+    });
+    Array.from(document.querySelectorAll('.deleteBtn')).forEach(function(b){
+      b.addEventListener('click',async function(){
+        if(!confirm('Delete this message?'))return;
+        var mid=b.getAttribute('data-mid');
+        await fetch('/api/public/admin/messages',{method:'DELETE',headers:{'Content-Type':'application/json',Authorization:'Bearer '+token},body:JSON.stringify({id:mid})});
+        loadDashboard();
+      });
+    });
+  }
+  if(token)loadDashboard();else renderLogin();
+})();
+</script>`;
 }
 
 function termsPage() {
