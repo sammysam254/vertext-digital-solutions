@@ -1,10 +1,22 @@
 [build]
   command = "npm run build:netlify"
   publish = "dist/netlify"
+  functions = "netlify/functions"
 
 [build.environment]
   NODE_VERSION = "22"
 
+[functions]
+  node_bundler = "esbuild"
+
+# API routes go to the serverless function (must come BEFORE the SPA catch-all)
+[[redirects]]
+  from = "/api/public/*"
+  to = "/.netlify/functions/api/:splat"
+  status = 200
+  force = true
+
+# SPA fallback for everything else
 [[redirects]]
   from = "/*"
   to = "/index.html"
